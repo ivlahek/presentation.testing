@@ -5,7 +5,7 @@ import javax.persistence.*;
 /**
  * Created by ivlahek on 23.6.2016..
  */
-@Entity(name = "USER")
+@Entity(name = "END_USER")
 public class User {
     @Id
     @Column(name = "ID")
@@ -25,7 +25,7 @@ public class User {
     @Column(name = "LANGUAGE")
     private String language;
     @ManyToOne
-    @JoinColumn(name = "CITY_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "CITY_ID", referencedColumnName = "ID", nullable = true)
     private City city;
 
     public Long getId() {

@@ -59,7 +59,7 @@ public class ComplexClassTest {
 
     @Test
     public void should_create_user_if_address_is_real() {
-        ComplexClass.ComplexRequest request = new ComplexClass.ComplexRequest();
+        ComplexRequest request = new ComplexRequest();
         request.houseNumber = houseNumber;
         request.address = validAddress;
         request.cityId = postalCode;
@@ -77,7 +77,7 @@ public class ComplexClassTest {
 
     @Test
     public void should_throw_runtime_exception_if_address_is_not_valid() {
-        ComplexClass.ComplexRequest request = new ComplexClass.ComplexRequest();
+        ComplexRequest request = new ComplexRequest();
         request.houseNumber = houseNumber;
         request.address = "invalidAddres";
         request.cityId = postalCode;
@@ -99,7 +99,7 @@ public class ComplexClassTest {
 
     @Test
     public void should_throw_runtime_exception_if_city_id_is_not_valid() {
-        ComplexClass.ComplexRequest request = new ComplexClass.ComplexRequest();
+        ComplexRequest request = new ComplexRequest();
         request.houseNumber = houseNumber;
         request.address = validAddress;
         int wrong = 10020;

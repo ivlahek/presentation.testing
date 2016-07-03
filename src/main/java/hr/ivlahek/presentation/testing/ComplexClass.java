@@ -4,13 +4,18 @@ import hr.ivlahek.presentation.testing.entity.User;
 import hr.ivlahek.presentation.testing.external.ExternalSystemClient;
 import hr.ivlahek.presentation.testing.service.UserService;
 
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+
 /**
  * Created by ivlahek on 23.6.2016..
  */
+@Transactional
 public class ComplexClass {
-
+    @Inject
     private UserService userService;
 
+    @Inject
     private ExternalSystemClient externalSystemClient;
 
     public User doSomething(ComplexRequest complexRequest) {
@@ -49,13 +54,4 @@ public class ComplexClass {
         this.userService = userService;
     }
 
-    public static class ComplexRequest {
-        String name;
-        String surname;
-        String address;
-        String language;
-        int houseNumber;
-        int postalCode;
-        int cityId;
-    }
 }

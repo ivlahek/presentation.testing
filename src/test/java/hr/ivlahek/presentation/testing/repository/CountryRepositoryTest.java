@@ -18,8 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class CountryRepositoryTest extends IntegrationTest {
 
-
-
     @Test
     public void should_create_country() {
         //BUILD

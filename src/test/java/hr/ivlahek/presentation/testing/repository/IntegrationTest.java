@@ -37,6 +37,6 @@ public abstract class IntegrationTest {
     @After
     public void tearDown() throws Exception {
         entityManager.joinTransaction();
-        entityManager.getTransaction().rollback();
+        entityManager.getTransaction().commit();
     }
 }

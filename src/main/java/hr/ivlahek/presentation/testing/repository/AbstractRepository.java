@@ -1,13 +1,15 @@
 package hr.ivlahek.presentation.testing.repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.util.List;
 
 /**
  * Created by ivlahek on 23.6.2016..
  */
 public abstract class AbstractRepository<E> {
-
+    @PersistenceContext(name = "test", unitName = "test", type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
     void setEntityManager(EntityManager entityManager) {

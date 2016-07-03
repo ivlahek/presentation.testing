@@ -5,13 +5,18 @@ import hr.ivlahek.presentation.testing.entity.User;
 import hr.ivlahek.presentation.testing.repository.CityRepository;
 import hr.ivlahek.presentation.testing.repository.UserRepository;
 
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+
 /**
  * Created by ivlahek on 23.6.2016..
  */
+@Transactional
 public class UserService {
 
+    @Inject
     private CityRepository cityRepository;
-
+    @Inject
     private UserRepository userRepository;
 
     public User createUser(Request request) {
