@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  */
@@ -22,9 +24,13 @@ public class EntityManagerUtil {
     private final Logger logger = LoggerFactory.getLogger(EntityManagerUtil.class);
 
 
-    private EntityManagerUtil() {
+    public EntityManagerUtil(String persistenceUnitName) {
         try {
-            emf = Persistence.createEntityManagerFactory("test");
+            Map properties = new HashMap();
+            properties.put("connection.username", "pres");
+            properties.put("connection.password", "pres");
+
+            emf = Persistence.createEntityManagerFactory(persistenceUnitName, properties);
 
             logger.info("DB Initialized: dialect = {}, url = {}, driver = {}, user = {}",
                     emf.getProperties().get("hibernate.dialect"),
@@ -40,7 +46,14 @@ public class EntityManagerUtil {
 
     public static synchronized EntityManagerUtil getInstance() {
         if (instance == null) {
-            instance = new EntityManagerUtil();
+            instance = new EntityManagerUtil("test");
+        }
+        return instance;
+    }
+
+    public static synchronized EntityManagerUtil getInstance(String persistenceUnitName) {
+        if (instance == null) {
+            instance = new EntityManagerUtil(persistenceUnitName);
         }
         return instance;
     }

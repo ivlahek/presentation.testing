@@ -8,4 +8,5 @@
         validationQuery = SELECT 1
         JtaManaged true
     </Resource>
+
 </tomee>

@@ -17,8 +17,30 @@
         <properties>
             <property name="connection.driver_class" value="org.h2.Driver"/>
             <property name="hibernate.connection.url" value="jdbc:h2:mem:repository"/>
+            <property name="connection.username" value="pres"/>
+            <property name="connection.password" value="pres"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.show_sql" value="true"/>
+
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="test-oracle" transaction-type="RESOURCE_LOCAL">
+
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <class>hr.ivlahek.presentation.testing.entity.User</class>
+        <class>hr.ivlahek.presentation.testing.entity.City</class>
+        <class>hr.ivlahek.presentation.testing.entity.Country</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
+        <properties>
+            <property name="connection.driver_class" value="oracle.jdbc.OracleDriver"/>
+            <property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+            <property name="hibernate.connection.username" value="pres"/>
+            <property name="hibernate.connection.password" value="pres"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
             <property name="hibernate.show_sql" value="true"/>
 
         </properties>

@@ -11,8 +11,8 @@ import java.util.Collection;
  */
 public class CityBuilder {
     private Long id;
-    private String name;
-    private Integer postalCode;
+    private String name = "Zagreb";
+    private Integer postalCode = 10000;
     private Country country;
     private Collection<User> users;
 

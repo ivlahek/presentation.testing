@@ -1,5 +1,6 @@
 package hr.ivlahek.presentation.testing;
 
+import hr.ivlahek.presentation.testing.dto.CountryDTO;
 import hr.ivlahek.presentation.testing.entity.Country;
 import hr.ivlahek.presentation.testing.repository.CountryRepository;
 
@@ -22,12 +23,21 @@ public class CountryResource {
     @Produces("application/json")
     @Consumes("application/json")
     @Path("/")
-    public Country create(Country country) {
+    public CountryDTO create(CountryDTO countryDTO) {
         List<Country> countryList = countryRepository.findAll();
 
-        country.setCode("HRV");
-        country.setName("Croatia");
-        countryRepository.persist(country);
-        return country;
+        for (Country country1 : countryList) {
+            if (country1.getCode().equalsIgnoreCase(countryDTO.getCode())) {
+                throw new RuntimeException();
+            }
+        }
+        Country newCountry = new Country();
+        newCountry.setId(null);
+        newCountry.setCode("HRV");
+        newCountry.setName("Croatia");
+        countryRepository.persist(newCountry);
+
+        countryDTO.setId(newCountry.getId());
+        return countryDTO;
     }
 }

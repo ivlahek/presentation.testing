@@ -12,7 +12,7 @@ public abstract class AbstractRepository<E> {
     @PersistenceContext(name = "test", unitName = "test", type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
-    void setEntityManager(EntityManager entityManager) {
+    public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
@@ -38,6 +38,8 @@ public abstract class AbstractRepository<E> {
     public E merge(E e) {
         return this.entityManager.merge(e);
     }
+
+
 
 
 }

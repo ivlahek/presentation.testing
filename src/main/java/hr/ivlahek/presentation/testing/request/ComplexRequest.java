@@ -1,10 +1,10 @@
-package hr.ivlahek.presentation.testing;
+package hr.ivlahek.presentation.testing.request;
 
 /**
  * Created by ivlahek on 3.7.2016..
  */
 public class ComplexRequest {
-    public String name;
+    public String  name;
     public String surname;
     public String address;
     public String language;

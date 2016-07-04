@@ -2,6 +2,7 @@ package hr.ivlahek.presentation.testing;
 
 import hr.ivlahek.presentation.testing.entity.User;
 import hr.ivlahek.presentation.testing.external.ExternalSystemClient;
+import hr.ivlahek.presentation.testing.request.ComplexRequest;
 import hr.ivlahek.presentation.testing.service.UserService;
 
 import javax.inject.Inject;
