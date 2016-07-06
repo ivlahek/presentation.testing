@@ -16,6 +16,7 @@ local.properties
 .project
 
 # External tool builders
+/Presentation.pptx
 .externalToolBuilders/
 
 # Locally stored "Eclipse launch configurations"
