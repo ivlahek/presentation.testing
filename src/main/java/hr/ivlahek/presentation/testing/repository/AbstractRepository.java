@@ -1,5 +1,6 @@
 package hr.ivlahek.presentation.testing.repository;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import java.util.List;
  */
 public abstract class AbstractRepository<E> {
 
+    @Inject
     private EntityManager entityManager;
 
     void setEntityManager(EntityManager entityManager) {
