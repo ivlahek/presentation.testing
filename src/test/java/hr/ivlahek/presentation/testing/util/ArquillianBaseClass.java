@@ -28,7 +28,8 @@ public class ArquillianBaseClass {
 
   @Inject
   protected EntityManager entityManager;
-
+  @Inject
+  protected CountryRepository countryRepository;
 
   @Deployment
   public static Archive<?> createDeployment() {
@@ -47,7 +48,7 @@ public class ArquillianBaseClass {
         .addClass(UserService.class)
         .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
         .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-
+//    System.out.println(webArchive.toString(true));
     return webArchive;
   }
 

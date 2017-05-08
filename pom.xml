@@ -19,12 +19,8 @@
         </dependencies>
     </dependencyManagement>
 
+
     <dependencies>
-        <!--<dependency>-->
-        <!--<groupId>javax</groupId>-->
-        <!--<artifactId>javaee-api</artifactId>-->
-        <!--<version>7.0</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
@@ -81,41 +77,60 @@
             <scope>provided</scope>
         </dependency>
         <!-- WELD DEPENDENCIES-->
+        <!--OPTIONAL DEPENDENCIES - DEPENDS OF THE CONTAINER ON WHICH WE WISH TO RUN TESTS-->
+        <dependency>
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
+            <version>1.0.0.CR9</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-core</artifactId>
+            <version>1.1.33.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <!--OPTIONAL DEPENDENCIES - DEPENDS OF THE CONTAINER ON WHICH WE WISH TO RUN TESTS-->
 
+        <!--MANDATORY DEPENDENCIES - MUST BE INCLUDED IN EVERY PROJECT USING ARQUILLIAN-->
+        <!--SHRINKWRAP IS USED TO BUILD ARTIFACT THAT IS GOING TO BE DEPLOYED IN THE CONTAINER-->
+        <dependency>
+            <groupId>org.jboss.shrinkwrap.resolver</groupId>
+            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
+            <version>2.2.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <version>1.1.2.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <!--MANDATORY DEPENDENCIES - MUST BE INCLUDED IN EVERY PROJECT USING ARQUILLIAN-->
     </dependencies>
-    <profiles>
-        <profile>
-            <id>weld</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.shrinkwrap.resolver</groupId>
-                    <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-                    <version>2.2.2</version>
-                    <scope>test</scope>
-                </dependency>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.2.201409121644</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-                <dependency>
-                    <groupId>org.jboss.arquillian.container</groupId>
-                    <artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
-                    <version>1.0.0.CR9</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.jboss.weld</groupId>
-                    <artifactId>weld-core</artifactId>
-                    <version>1.1.33.Final</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.jboss.arquillian.junit</groupId>
-                    <artifactId>arquillian-junit-container</artifactId>
-                    <version>1.1.2.Final</version>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
+
 </project>

@@ -11,82 +11,76 @@ import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by ivlahek on 20.11.13..
  */
 @ApplicationScoped
 public class EntityManagerProducer {
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EntityManagerProducer.class);
-    private EntityManagerFactory emf;
+  private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(EntityManagerProducer.class);
+  private EntityManagerFactory emf;
+
+  public EntityManagerFactory getEntityManagerFactory() {
+    return emf;
+  }
+
+  @PostConstruct
+  public void initialize() {
+    log.debug(">> initialize() EntityManagerFactory is initializing ...");
+    emf = Persistence.createEntityManagerFactory("test");
+
+    log.info("DB Initialized: dialect = {}, url = {}, driver = {}, user = {}",
+        emf.getProperties().get("hibernate.dialect"),
+        emf.getProperties().get("javax.persistence.jdbc.url"),
+        emf.getProperties().get("javax.persistence.jdbc.driver"),
+        emf.getProperties().get("javax.persistence.jdbc.user"));
+
+    log.debug("<< initialize() EntityManagerFactory is initialized.");
+  }
 
 
-
-
-
-    public EntityManagerFactory getEntityManagerFactory() {
-        return emf;
+  @PreDestroy
+  public void destroy() {
+    if (emf != null) {
+      log.debug("Closing EntityManagerFactory ...");
+      emf.close();
     }
+  }
 
-    @PostConstruct
-    public void initialize() {
-        log.debug(">> initialize() EntityManagerFactory is initializing ...");
-        emf = Persistence.createEntityManagerFactory("test");
-
-        log.info("DB Initialized: dialect = {}, url = {}, driver = {}, user = {}",
-                emf.getProperties().get("hibernate.dialect"),
-                emf.getProperties().get("javax.persistence.jdbc.url"),
-                emf.getProperties().get("javax.persistence.jdbc.driver"),
-                emf.getProperties().get("javax.persistence.jdbc.user"));
-
-        log.debug("<< initialize() EntityManagerFactory is initialized.");
-    }
+  @Default
+  @Produces
+  @RequestScoped
+  public EntityManager getEntityManager() {
+    final EntityManager em = emf.createEntityManager();
+    log.debug("created new EntityManager");
+    return em;
+  }
 
 
-    @PreDestroy
-    public void destroy() {
-        if (emf != null) {
-            log.debug("Closing EntityManagerFactory ...");
-            emf.close();
+  public void close(@Disposes EntityManager em) {
+    log.debug("closing EntityManager, isOpen = {}, isActive = {}", em.isOpen(), em.getTransaction() != null ? em.getTransaction().isActive() : null);
+
+    if (em.isOpen()) {
+      try {
+        if (em.getTransaction().isActive()) {
+          em.getTransaction().rollback();
         }
+      } catch (Exception e1) {
+        log.error("Rollback transaction exception : ", e1);
+      }
+
+      try {
+        em.clear();
+        em.close();
+      } catch (Exception e3) {
+        log.info("Closing exception : ", e3);
+      }
     }
-
-    @Default
-    @Produces
-    @RequestScoped
-    public EntityManager getEntityManager() {
-        final EntityManager em = emf.createEntityManager();
-        log.debug("created new EntityManager");
-        return em;
-    }
+  }
 
 
-    public void close(@Disposes EntityManager em) {
-        log.debug("closing EntityManager, isOpen = {}, isActive = {}", em.isOpen(), em.getTransaction() != null ? em.getTransaction().isActive() : null);
-
-        if (em.isOpen()) {
-            try {
-                if (em.getTransaction().isActive()) {
-                    em.getTransaction().rollback();
-                }
-            } catch (Exception e1) {
-                log.error("Rollback transaction exception : ", e1);
-            }
-
-            try {
-                em.clear();
-                em.close();
-            } catch (Exception e3) {
-                log.info("Closing exception : ", e3);
-            }
-        }
-    }
-
-
-    @Override
-    public String toString() {
-        return String.format("EntityManagerFactory isOpen = {}", emf != null ? emf.isOpen() : null);
-    }
+  @Override
+  public String toString() {
+    return String.format("EntityManagerFactory isOpen = {}", emf != null ? emf.isOpen() : null);
+  }
 }
